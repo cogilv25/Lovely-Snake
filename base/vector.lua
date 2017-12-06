@@ -24,6 +24,10 @@ function Vector:__lt(vec2)
 	return (self:getLength() < vec2:getLength())
 end
 
+function Vector:__eq(vec2)
+	return (self.x == vec2.x and self.y == vec2.y)
+end
+
 function Vector:getCopy()
 	return Vector(self.x,self.y)
 end

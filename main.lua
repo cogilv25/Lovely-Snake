@@ -1,4 +1,7 @@
-
+SCREENWIDTH = 800
+SCREENHEIGHT = 600
+GAMEENTITYSIZE = 15
+GAMEGRIDSIZE = 20
 
 function love.load()
 	--! Include Requirements
@@ -12,6 +15,7 @@ function love.load()
 	require "base/entity"
 	--! High Level Classes
 	require "snake"
+	require "food"
 	--Initialize Love window
 	love.window.setTitle("Snake!")
 	--love.window.setFullscreen(true)
@@ -19,13 +23,15 @@ function love.load()
 	paused = false
 	gameOver = false
 	snake = Snake()
-	Tick.recur(slowUpdate,0.2)
+	food = Food()
+	Tick.recur(slowUpdate,0.05)
 end
 
 function slowUpdate()
-	if(not paused)then
-		snake:update()
-	end
+	--Using the tick library to slow down the framerate
+	if(paused)then return end
+	snake:update()
+	food:update()
 end
 
 function detectCollisions()
@@ -38,6 +44,7 @@ function love.draw()
 	if(paused)then
 		--Pause Menu
 	end
+	food:draw()
 	snake:draw()
 end
 
@@ -58,10 +65,16 @@ function love.keypressed(key)
 	if(key == "p" and not gameOver)then
 		paused = not paused
 	end
+	if(key == "up" or key == "w")then
+		snake:faceUp()
+	end
+	if(key == "down" or key == "s")then
+		snake:faceDown()
+	end
 	if(key == "left" or key == "a")then
-		snake:turnLeft()
+		snake:faceLeft()
 	end
 	if(key == "right" or key == "d")then
-		snake:turnRight()
+		snake:faceRight()
 	end
 end

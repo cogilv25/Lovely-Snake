@@ -24,7 +24,7 @@ function XOrShiftGenerator:next()
 	self.state = bit.bxor(self.state,a)
 	self.state = bit.bxor(self.state,b)
 	self.state = bit.bxor(self.state,c)
-	return self.state * 88608
+	return self.state * 104053
 end
 
 

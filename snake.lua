@@ -4,15 +4,17 @@ Snake = Entity:extend()
 
 function Snake:new()
 --	Position (X, Y)
-	self.pos = Vector(48,48)
---	Dimensions (Width, Height)
-	self.dim = Vector(7,7)
+	self.pos = Vector(GAMEGRIDSIZE*2,GAMEGRIDSIZE)
+--	Dimensions (Width, Height) of a single segment
+	self.dim = Vector(GAMEENTITYSIZE,GAMEENTITYSIZE)
 --	Direction (X, Y)
-	self.dir = Vector(8,0)
+	self.dir = Vector(GAMEGRIDSIZE,0)
 --	Color (Red, Green, Blue)
 	self.color = {255,255,255}
 --	Snake Segments (Tail Of the Snake)
-	self.segments = {Vector(40,48),Vector(32,48)}
+	self.segments = {Vector(GAMEGRIDSIZE,GAMEGRIDSIZE),Vector(0,GAMEGRIDSIZE)}
+--  Flag to tell snake to grow after feeding
+	self.grow = false
 end
 
 function Snake:draw()
@@ -23,25 +25,59 @@ function Snake:draw()
     end
 end
 
-function Snake:update(dt)
-	local prev = self.pos
+function Snake:update()
+	local prev = self.pos:getCopy()
+	self.pos = self.pos + self.dir
 	local newSegments = {}
 	for i,v in ipairs(self.segments) do
-		newSegments[i] = prev:getCopy()
-		prev = v
+		newSegments[i] = prev
+		prev = v:getCopy()
+		--Self Collision Detection
+		if(self.pos == v) then
+			paused = true
+			gameOver = true
+		end
+	end
+	if(self.grow)then
+		self.grow = false
+		newSegments[#newSegments + 1] = prev
 	end
 	self.segments = newSegments
-	self.pos = self.pos + self.dir
+	--Wall Collision Detection
+	if(self.pos.x == SCREENWIDTH)then
+		self.pos.x = 0
+	end
+	if(self.pos.x < 0)then
+		self.pos.x = SCREENWIDTH - GAMEGRIDSIZE
+	end
+	if(self.pos.y == SCREENHEIGHT)then
+		self.pos.y = 0
+	end
+	if(self.pos.y < 0)then
+		self.pos.y = SCREENHEIGHT - GAMEGRIDSIZE
+	end
 end
 
-function Snake:turnRight()
-	local t = self.dir.x
-	self.dir.x = -self.dir.y
-	self.dir.y = t
+function Snake:faceRight()
+	if(self.dir.x >= 0)then
+		self.dir = Vector(GAMEGRIDSIZE,0)
+	end
 end
 
-function Snake:turnLeft()
-	local t = self.dir.y
-	self.dir.y = -self.dir.x
-	self.dir.x = t
+function Snake:faceLeft()
+	if(self.dir.x <= 0)then
+		self.dir = Vector(-GAMEGRIDSIZE,0)
+	end
+end
+
+function Snake:faceUp()
+	if(self.dir.y <= 0)then
+		self.dir = Vector(0,-GAMEGRIDSIZE)
+	end
+end
+	
+function Snake:faceDown()
+	if(self.dir.y >= 0)then
+		self.dir = Vector(0,GAMEGRIDSIZE)
+	end
 end
