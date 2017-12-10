@@ -25,7 +25,7 @@ function Food:respawn()
 end
 
 function Food:update()
-	if(self.pos == snake.pos)then
+	if(self.pos == snake.segments[#snake.segments])then
 		self:respawn()
 		snake.grow = true
 	end

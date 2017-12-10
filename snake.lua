@@ -15,6 +15,8 @@ function Snake:new()
 	self.segments = {Vector(GAMEGRIDSIZE,GAMEGRIDSIZE),Vector(0,GAMEGRIDSIZE)}
 --  Flag to tell snake to grow after feeding
 	self.grow = false
+--	Direction For Next Frame
+	self.nextDir = Vector(GAMEGRIDSIZE,0)
 end
 
 function Snake:draw()
@@ -27,7 +29,8 @@ end
 
 function Snake:update()
 	local prev = self.pos:getCopy()
-	self.pos = self.pos + self.dir
+	self.pos = self.pos + self.nextDir
+	self.dir = self.nextDir
 	local newSegments = {}
 	for i,v in ipairs(self.segments) do
 		newSegments[i] = prev
@@ -58,26 +61,26 @@ function Snake:update()
 	end
 end
 
-function Snake:faceRight()
-	if(self.dir.x >= 0)then
-		self.dir = Vector(GAMEGRIDSIZE,0)
+function Snake:faceRightNext()
+	if(self.dir.x == 0)then
+		self.nextDir = Vector(GAMEGRIDSIZE,0)
 	end
 end
 
-function Snake:faceLeft()
-	if(self.dir.x <= 0)then
-		self.dir = Vector(-GAMEGRIDSIZE,0)
+function Snake:faceLeftNext()
+	if(self.dir.x == 0)then
+		self.nextDir = Vector(-GAMEGRIDSIZE,0)
 	end
 end
 
-function Snake:faceUp()
-	if(self.dir.y <= 0)then
-		self.dir = Vector(0,-GAMEGRIDSIZE)
+function Snake:faceUpNext()
+	if(self.dir.y == 0)then
+		self.nextDir = Vector(0,-GAMEGRIDSIZE)
 	end
 end
 	
-function Snake:faceDown()
-	if(self.dir.y >= 0)then
-		self.dir = Vector(0,GAMEGRIDSIZE)
+function Snake:faceDownNext()
+	if(self.dir.y == 0)then
+		self.nextDir = Vector(0,GAMEGRIDSIZE)
 	end
 end

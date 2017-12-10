@@ -3,6 +3,13 @@ SCREENHEIGHT = 600
 GAMEENTITYSIZE = 15
 GAMEGRIDSIZE = 20
 
+function resetGame()
+	gameOver = false
+	paused = false
+	snake:new()
+	food:respawn()
+end
+
 function love.load()
 	--! Include Requirements
 	--! Libraries
@@ -24,7 +31,7 @@ function love.load()
 	gameOver = false
 	snake = Snake()
 	food = Food()
-	Tick.recur(slowUpdate,0.05)
+	Tick.recur(slowUpdate,0.15)
 end
 
 function slowUpdate()
@@ -60,21 +67,21 @@ function love.keypressed(key)
 		love.event.quit()
 	end
 	if(key == "r")then
-		--reset game
+		resetGame()
 	end
 	if(key == "p" and not gameOver)then
 		paused = not paused
 	end
 	if(key == "up" or key == "w")then
-		snake:faceUp()
+		snake:faceUpNext()
 	end
 	if(key == "down" or key == "s")then
-		snake:faceDown()
+		snake:faceDownNext()
 	end
 	if(key == "left" or key == "a")then
-		snake:faceLeft()
+		snake:faceLeftNext()
 	end
 	if(key == "right" or key == "d")then
-		snake:faceRight()
+		snake:faceRightNext()
 	end
 end
