@@ -1,22 +1,19 @@
---! Snake class - The Player is a snake which must conssume food to grow
+-- Snake class
 
-Snake = Entity:extend()
+Snake = Object:extend()
 
 function Snake:new()
---	Position (X, Y)
 	self.pos = Vector(GAMEGRIDSIZE*2,GAMEGRIDSIZE)
---	Dimensions (Width, Height) of a single segment
 	self.dim = Vector(GAMEENTITYSIZE,GAMEENTITYSIZE)
---	Direction (X, Y)
+	-- Both dir and dirNextFrame are kept track of to prevent the snakes head hitting
+	-- the first segment if the player moved right then down in the same frame.
 	self.dir = Vector(GAMEGRIDSIZE,0)
---	Color (Red, Green, Blue)
+	self.dirNextFrame = Vector(GAMEGRIDSIZE,0)
 	self.color = {255,255,255}
---	Snake Segments (Tail Of the Snake)
+	-- Segments is just a list of vectors in order from head to tail
 	self.segments = {Vector(GAMEGRIDSIZE,GAMEGRIDSIZE),Vector(0,GAMEGRIDSIZE)}
---  Flag to tell snake to grow after feeding
+	-- Flag to tell snake to grow after feeding
 	self.grow = false
---	Direction For Next Frame
-	self.nextDir = Vector(GAMEGRIDSIZE,0)
 end
 
 function Snake:draw()
@@ -29,14 +26,16 @@ end
 
 function Snake:update()
 	local prev = self.pos:getCopy()
-	self.pos = self.pos + self.nextDir
-	self.dir = self.nextDir
+	-- Update position wrapping around screen
+	self.pos.x = (self.pos.x + self.dirNextFrame.x + SCREENWIDTH) % SCREENWIDTH
+	self.pos.y = (self.pos.y + self.dirNextFrame.y + SCREENHEIGHT) % SCREENHEIGHT
+	self.dir = self.dirNextFrame
 	local newSegments = {}
-	for i,v in ipairs(self.segments) do
+	for i,vec in ipairs(self.segments) do
 		newSegments[i] = prev
-		prev = v:getCopy()
-		--Self Collision Detection
-		if(self.pos == v) then
+		prev = vec
+		-- Self Collision Detection
+		if(self.pos == vec) then
 			paused = true
 			gameOver = true
 		end
@@ -46,41 +45,28 @@ function Snake:update()
 		newSegments[#newSegments + 1] = prev
 	end
 	self.segments = newSegments
-	--Wall Collision Detection
-	if(self.pos.x == SCREENWIDTH)then
-		self.pos.x = 0
-	end
-	if(self.pos.x < 0)then
-		self.pos.x = SCREENWIDTH - GAMEGRIDSIZE
-	end
-	if(self.pos.y == SCREENHEIGHT)then
-		self.pos.y = 0
-	end
-	if(self.pos.y < 0)then
-		self.pos.y = SCREENHEIGHT - GAMEGRIDSIZE
-	end
 end
 
-function Snake:faceRightNext()
+function Snake:moveRightNextFrame()
 	if(self.dir.x == 0)then
-		self.nextDir = Vector(GAMEGRIDSIZE,0)
+		self.dirNextFrame = Vector(GAMEGRIDSIZE,0)
 	end
 end
 
-function Snake:faceLeftNext()
+function Snake:moveLeftNextFrame()
 	if(self.dir.x == 0)then
-		self.nextDir = Vector(-GAMEGRIDSIZE,0)
+		self.dirNextFrame = Vector(-GAMEGRIDSIZE,0)
 	end
 end
 
-function Snake:faceUpNext()
+function Snake:moveUpNextFrame()
 	if(self.dir.y == 0)then
-		self.nextDir = Vector(0,-GAMEGRIDSIZE)
+		self.dirNextFrame = Vector(0,-GAMEGRIDSIZE)
 	end
 end
 	
-function Snake:faceDownNext()
+function Snake:moveDownNextFrame()
 	if(self.dir.y == 0)then
-		self.nextDir = Vector(0,GAMEGRIDSIZE)
+		self.dirNextFrame = Vector(0,GAMEGRIDSIZE)
 	end
 end

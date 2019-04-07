@@ -1,65 +1,97 @@
-SCREENWIDTH = 800
-SCREENHEIGHT = 600
-GAMEENTITYSIZE = 15
-GAMEGRIDSIZE = 20
+-- Written By Calum Lindsay
+-- It is a very simple implementation
+-- of the classic snake game I made to
+-- try out the LÖVE 2D Game engine. I
+-- also made a simple rng "library"
+-- called xorshift for spawning food.
+-- 
+-- How to run it:
+-- You will need the LÖVE Engine to run
+-- it which you can get here:
+-- https://love2d.org
+-- Download any of the zipped versions,
+-- extract them and drag the folder 
+-- containing the snake source code
+-- onto the "love.exe" executable
+--
+-- Controls:
+-- Arrow keys or WASD to change direction
+-- r to reset
+-- p to pause
+-- 3 to cheat (snake grows without eating)
+--
+--!TODO:
+-- 1)Larger border on bottom and right
+-- than top and left
+-- 2)No win condition or score as of yet
+-- 3)Arbitrary window dimensions
+-- 4)Food should not spawn underneath
+-- snake segments
+-- 5)Game over message
+-- 6)Pause Menu
+-- 7)I think food should respawn as soon
+-- as it's eaten by the head
+-- 8)Snake update function could be more 
+-- efficient as really only the head and
+-- tail need to be modified
+-- 9)Use a random value for seeding the 
+-- rng such as the current time
+
+SCREENWIDTH = 1200
+SCREENHEIGHT = SCREENWIDTH * .75
+GAMEGRIDSIZE = SCREENWIDTH / 40
+GAMEENTITYSIZE = GAMEGRIDSIZE * .75
+GAME_TICK_PERIOD = 0.15
+-- Each time the snake eats food the number of
+-- segments it grows by increases by this number
+FOOD_ENERGY_INCREMENTER = 2
 
 function resetGame()
 	gameOver = false
 	paused = false
 	snake:new()
-	food:respawn()
+	food:new()
 end
 
 function love.load()
-	--! Include Requirements
-	--! Libraries
+	-- Libraries
 	Object = require "lib/classic"
 	Tick = require "lib/tick"
-	--Bit = require "bit"
 	Rng = require "lib/xorshift"
-	--! Base Classes
+	-- Classes
 	require "base/vector"
-	require "base/entity"
-	--! High Level Classes
 	require "snake"
 	require "food"
-	--Initialize Love window
+
+	w,h,flags = love.window.getMode()
+	love.window.setMode(SCREENWIDTH,SCREENHEIGHT,flags)
 	love.window.setTitle("Snake!")
-	--love.window.setFullscreen(true)
 	love.graphics.setBackgroundColor(0,0,0)
 	paused = false
 	gameOver = false
 	snake = Snake()
 	food = Food()
-	Tick.recur(slowUpdate,0.15)
+
+	-- Call slowUpdate every GAME_TICK_PERIOD seconds
+	Tick.recur(slowUpdate,GAME_TICK_PERIOD)
 end
 
 function slowUpdate()
-	--Using the tick library to slow down the framerate
+	-- Stop updating entities when paused
 	if(paused)then return end
 	snake:update()
 	food:update()
 end
 
-function detectCollisions()
-	for k,v in pairs(table_name) do
-		print(k,v)
-	end
-end
-
 function love.draw()
-	if(paused)then
-		--Pause Menu
-	end
 	food:draw()
 	snake:draw()
 end
 
 function love.update(d)
-	--Continue Updating When Paused
+	-- We can't slow down the main loop to create
+	-- the slow update effect as input can feel laggy
 	Tick.update(d)
-	if(paused)then return end
-	--Stop Updating When Paused
 end
 
 function love.keypressed(key)
@@ -73,15 +105,18 @@ function love.keypressed(key)
 		paused = not paused
 	end
 	if(key == "up" or key == "w")then
-		snake:faceUpNext()
+		snake:moveUpNextFrame()
 	end
 	if(key == "down" or key == "s")then
-		snake:faceDownNext()
+		snake:moveDownNextFrame()
 	end
 	if(key == "left" or key == "a")then
-		snake:faceLeftNext()
+		snake:moveLeftNextFrame()
 	end
 	if(key == "right" or key == "d")then
-		snake:faceRightNext()
+		snake:moveRightNextFrame()
+	end
+	if(key == "3")then
+		snake.grow = true
 	end
 end

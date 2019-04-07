@@ -1,4 +1,4 @@
---! 2D Vector Class
+-- 2D Vector Class
 Vector = Object:extend()
 
 function Vector:new(x,y)

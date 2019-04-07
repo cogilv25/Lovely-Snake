@@ -1,3 +1,12 @@
+-- Written by Calum Lindsay
+-- It is a pseudo-random number generator. There are 
+-- probably issues but it suits my purposes.
+--
+-- It is a slightly modified version of
+-- the xorshift* implementation from wikipedia:
+--
+-- https://en.wikipedia.org/wiki/Xorshift
+
 local XOrShiftGenerator = {}
 XOrShiftGenerator.__index = XOrShiftGenerator
 
@@ -15,8 +24,6 @@ function XOrShiftGenerator:initialise()
 	end
 end
 
--- This is the xorshift* implementation from Wiki:
--- https://en.wikipedia.org/wiki/Xorshift
 function XOrShiftGenerator:next()
 	local a = bit.lshift(self.state,13)
 	local b = bit.rshift(self.state,17)
