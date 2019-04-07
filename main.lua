@@ -1,10 +1,11 @@
--- Written By Calum Lindsay
+-- Written By Calum Lindsay.
+
 -- It is a very simple implementation
 -- of the classic snake game I made to
 -- try out the LÖVE 2D Game engine. I
 -- also made a simple rng "library"
 -- called xorshift for spawning food.
--- 
+
 -- How to run it:
 -- You will need the LÖVE Engine to run
 -- it which you can get here:
@@ -13,13 +14,13 @@
 -- extract them and drag the folder 
 -- containing the snake source code
 -- onto the "love.exe" executable
---
+
 -- Controls:
 -- Arrow keys or WASD to change direction
 -- r to reset
 -- p to pause
 -- 3 to cheat (snake grows without eating)
---
+
 --!TODO:
 -- 1)Larger border on bottom and right
 -- than top and left
@@ -55,8 +56,8 @@ end
 
 function love.load()
 	-- Libraries
-	Object = require "lib/classic"
-	Tick = require "lib/tick"
+	Object = require "lib/classic/classic"
+	Tick = require "lib/tick/tick"
 	Rng = require "lib/xorshift"
 	-- Classes
 	require "base/vector"
