@@ -11,8 +11,8 @@ local XOrShiftGenerator = {}
 XOrShiftGenerator.__index = XOrShiftGenerator
 
 function XOrShiftGenerator:new(seed)
-	--Use supplied seed or static 32 bit value
-	self.seed = seed or 1976839131
+	--Use supplied seed or current time in seconds
+	self.seed = seed or os.time()
 	self.state = self.seed
 	self:initialise()
 end
