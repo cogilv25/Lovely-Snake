@@ -3,10 +3,10 @@ Food = Object:extend()
 
 function Food:new()
 	--Spawn food randomly on grid
-	local xrange = SCREENWIDTH/GAMEGRIDSIZE - 1
-	local yrange = SCREENHEIGHT/GAMEGRIDSIZE - 1 
-	local x = (Rng:next() % xrange) * GAMEGRIDSIZE
-	local y = (Rng:next() % yrange) * GAMEGRIDSIZE
+	local xrange = SCREENWIDTH/GAMEGRIDPOINTSIZE - 1
+	local yrange = SCREENHEIGHT/GAMEGRIDPOINTSIZE - 1 
+	local x = (Rng:next() % xrange) * GAMEGRIDPOINTSIZE
+	local y = (Rng:next() % yrange) * GAMEGRIDPOINTSIZE
 	self.pos = Vector(x,y)
 	
 	self.dim = Vector(GAMEENTITYSIZE,GAMEENTITYSIZE)
@@ -18,11 +18,22 @@ function Food:new()
 end
 
 function Food:respawn()
-	local xrange = SCREENWIDTH/GAMEGRIDSIZE - 1
-	local yrange = SCREENHEIGHT/GAMEGRIDSIZE - 1 
-	local x = (Rng:next() % xrange) * GAMEGRIDSIZE
-	local y = (Rng:next() % yrange) * GAMEGRIDSIZE
-	self.pos = Vector(x,y)
+	local allowedSpaces = {}
+	for i=1,GAMEGRIDLENGTH*GAMEGRIDHEIGHT do
+		allowedSpaces[i] = Vector(i%GAMEGRIDLENGTH*GAMEGRIDPOINTSIZE,
+			math.floor(i/GAMEGRIDLENGTH)*GAMEGRIDPOINTSIZE)
+	end
+
+	for i,v in ipairs(snake.segments) do
+		table.remove(allowedSpaces,(v.x/GAMEGRIDPOINTSIZE)+(v.y/GAMEGRIDPOINTSIZE)*GAMEGRIDLENGTH)
+	end
+
+	local xrange = GAMEGRIDLENGTH - 1
+	local yrange = GAMEGRIDHEIGHT - 1
+
+
+	local i = (Rng:next() % #allowedSpaces)
+	self.pos = allowedSpaces[i]
 	self.respawnEnergy = self.respawnEnergy + FOOD_ENERGY_INCREMENTER
 	self.energy = self.respawnEnergy
 	self.eaten = false

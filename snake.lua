@@ -3,15 +3,15 @@
 Snake = Object:extend()
 
 function Snake:new()
-	self.pos = Vector(GAMEGRIDSIZE*2,GAMEGRIDSIZE)
+	self.pos = Vector(GAMEGRIDPOINTSIZE*2,GAMEGRIDPOINTSIZE)
 	self.dim = Vector(GAMEENTITYSIZE,GAMEENTITYSIZE)
 	-- Both dir and dirNextFrame are kept track of to prevent the snakes head hitting
 	-- the first segment if the player moved right then down in the same frame.
-	self.dir = Vector(GAMEGRIDSIZE,0)
-	self.dirNextFrame = Vector(GAMEGRIDSIZE,0)
+	self.dir = Vector(GAMEGRIDPOINTSIZE,0)
+	self.dirNextFrame = Vector(GAMEGRIDPOINTSIZE,0)
 	self.color = {255,255,255}
 	-- Segments is just a list of vectors in order from head to tail
-	self.segments = {Vector(GAMEGRIDSIZE,GAMEGRIDSIZE),Vector(0,GAMEGRIDSIZE)}
+	self.segments = {Vector(GAMEGRIDPOINTSIZE,GAMEGRIDPOINTSIZE),Vector(0,GAMEGRIDPOINTSIZE)}
 	-- Flag to tell snake to grow after feeding
 	self.grow = false
 end
@@ -49,24 +49,24 @@ end
 
 function Snake:moveRightNextFrame()
 	if(self.dir.x == 0)then
-		self.dirNextFrame = Vector(GAMEGRIDSIZE,0)
+		self.dirNextFrame = Vector(GAMEGRIDPOINTSIZE,0)
 	end
 end
 
 function Snake:moveLeftNextFrame()
 	if(self.dir.x == 0)then
-		self.dirNextFrame = Vector(-GAMEGRIDSIZE,0)
+		self.dirNextFrame = Vector(-GAMEGRIDPOINTSIZE,0)
 	end
 end
 
 function Snake:moveUpNextFrame()
 	if(self.dir.y == 0)then
-		self.dirNextFrame = Vector(0,-GAMEGRIDSIZE)
+		self.dirNextFrame = Vector(0,-GAMEGRIDPOINTSIZE)
 	end
 end
 	
 function Snake:moveDownNextFrame()
 	if(self.dir.y == 0)then
-		self.dirNextFrame = Vector(0,GAMEGRIDSIZE)
+		self.dirNextFrame = Vector(0,GAMEGRIDPOINTSIZE)
 	end
 end

@@ -26,8 +26,7 @@
 -- than top and left
 -- 2)No win condition or score as of yet
 -- 3)Arbitrary window dimensions
--- 4)Food should not spawn underneath
--- snake segments
+-- 4)God mode to test things out
 -- 5)Game over message
 -- 6)Pause Menu
 -- 7)I think food should respawn as soon
@@ -35,13 +34,13 @@
 -- 8)Snake update function could be more 
 -- efficient as really only the head and
 -- tail need to be modified
--- 9)Use a random value for seeding the 
--- rng such as the current time
 
 SCREENWIDTH = 1200
 SCREENHEIGHT = SCREENWIDTH * .75
-GAMEGRIDSIZE = SCREENWIDTH / 40
-GAMEENTITYSIZE = GAMEGRIDSIZE * .75
+GAMEGRIDLENGTH = 40
+GAMEGRIDHEIGHT = GAMEGRIDLENGTH * .75
+GAMEGRIDPOINTSIZE = SCREENWIDTH / GAMEGRIDLENGTH
+GAMEENTITYSIZE = GAMEGRIDPOINTSIZE * .75
 GAME_TICK_PERIOD = 0.15
 -- Each time the snake eats food the number of
 -- segments it grows by increases by this number
