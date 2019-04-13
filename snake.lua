@@ -18,9 +18,9 @@ end
 
 function Snake:draw()
 	love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.dim.x, self.dim.y)
+    love.graphics.rectangle("fill", self.pos.x + GAMEGRIDBORDERSIZE, self.pos.y + GAMEGRIDBORDERSIZE, self.dim.x, self.dim.y)
     for k,v in pairs(self.segments) do
-    	love.graphics.rectangle("fill", v.x, v.y, self.dim.x, self.dim.y)
+    	love.graphics.rectangle("fill", v.x + GAMEGRIDBORDERSIZE, v.y + GAMEGRIDBORDERSIZE, self.dim.x, self.dim.y)
     end
 end
 

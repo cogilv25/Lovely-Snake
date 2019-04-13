@@ -53,5 +53,5 @@ end
 
 function Food:draw()
 	love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, self.dim.x, self.dim.y)
+    love.graphics.rectangle("fill", self.pos.x + GAMEGRIDBORDERSIZE, self.pos.y + GAMEGRIDBORDERSIZE, self.dim.x, self.dim.y)
 end
