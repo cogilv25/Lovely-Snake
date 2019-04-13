@@ -8,13 +8,13 @@ You will need the LÖVE Engine to run it which you can get [here](https://love2d
 ## Controls
 - Arrow keys or WASD to change direction
 - r to reset
-- p to pause
+- ESC to pause
 - 3 to cheat (snake grows without eating)
 
 ## Possible future improvements / problems
-- [ ] Add win condition and scores
-- [ ] Add a game over message
-- [ ] Add a pause menu
+- [x] Add win condition and scores
+- [x] Add a game over message
+- [x] Add a pause menu
 - [ ] Allow arbitrary window dimensions
 - [x] Use a random value for seeding the rng such as the current time
 - [x] Food should not spawn in a space occupied by the snake

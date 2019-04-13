@@ -45,6 +45,12 @@ function Food:update()
 			self:respawn()
 			self.eaten = false
 		else
+			if score == GAMEGRIDLENGTH*GAMEGRIDHEIGHT-1 then
+				paused = true
+				gameOver = true
+				gameWon = true
+			end
+			score = score + 1
 			snake.grow = true
 			self.energy = self.energy -1
 		end

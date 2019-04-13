@@ -47,11 +47,19 @@ GAME_TICK_PERIOD = 0.15
 -- segments it grows by increases by this number
 FOOD_ENERGY_INCREMENTER = 2
 
+score = 0
+highlightedMenuItem = 0
+menuHeaderFont = love.graphics.newFont(64)
+menuHeader2Font = love.graphics.newFont(32)
+menuHeader3Font = love.graphics.newFont(20)
+
 function resetGame()
 	gameOver = false
+	gameWon = false
 	paused = false
 	snake:new()
 	food:new()
+	score = 0
 end
 
 function love.load()
@@ -70,6 +78,7 @@ function love.load()
 	love.graphics.setBackgroundColor(0,0,0)
 	paused = false
 	gameOver = false
+	gameWon = false 
 	snake = Snake()
 	food = Food()
 
@@ -87,23 +96,77 @@ end
 function love.draw()
 	food:draw()
 	snake:draw()
+	if paused then
+		if gameOver then
+			if gameWon then
+			love.graphics.setFont(menuHeaderFont)
+			love.graphics.printf("You Have Won!", 0, SCREENHEIGHT/menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
+			love.graphics.setColor({178,178,178})
+			love.graphics.setFont(menuHeader2Font)
+			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+64,SCREENWIDTH,"center")
+			else
+			love.graphics.setColor({255,0,0})
+			love.graphics.setFont(menuHeaderFont)
+			love.graphics.printf("You Have Lost!", 0, SCREENHEIGHT/2-menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
+			love.graphics.setColor({178,178,178})
+			love.graphics.setFont(menuHeader2Font)
+			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+44,SCREENWIDTH,"center")
+			end
+		else
+			love.graphics.setFont(menuHeaderFont)
+			love.graphics.printf("Paused", SCREENWIDTH/2-200, 5,400,"center")
+			if highlightedMenuItem ~= 1 then
+				love.graphics.setColor({178,178,178})
+			end
+			love.graphics.setFont(menuHeader2Font)
+			love.graphics.printf("Continue", SCREENWIDTH/2-200, 75,400,"center")
+			if highlightedMenuItem == 2 then
+				love.graphics.setColor({255,255,255})
+			else
+				love.graphics.setColor({178,178,178})
+			end
+			love.graphics.printf("Exit", SCREENWIDTH/2-200, 115,400,"center")
+		end
+	else
+		love.graphics.setFont(menuHeader3Font)
+		love.graphics.printf("Score: " .. score, SCREENWIDTH/2-50, 5,100,"center")
+	end
 end
 
 function love.update(d)
 	-- We can't slow down the main loop to create
 	-- the slow update effect as input can feel laggy
 	Tick.update(d)
+	if paused then
+		highlightedMenuItem = 0
+		if(love.mouse.getX() > SCREENWIDTH/2-200 and love.mouse.getX() < SCREENWIDTH/2+200)then
+			if(love.mouse.getY()>75)then
+				if(love.mouse.getY() > 115)then
+					if(love.mouse.getY() < 160)then
+						highlightedMenuItem = 2
+						if(love.mouse.isDown(1))then
+							love.event.quit()
+						end
+					end
+				else
+					highlightedMenuItem = 1
+					if(love.mouse.isDown(1))then
+						paused = false
+					end
+				end
+			end
+		end
+	end
 end
 
 function love.keypressed(key)
 	if(key == "escape")then
-		love.event.quit()
+		if(not gameOver)then
+			paused = not paused
+		end
 	end
 	if(key == "r")then
 		resetGame()
-	end
-	if(key == "p" and not gameOver)then
-		paused = not paused
 	end
 	if(key == "up" or key == "w")then
 		snake:moveUpNextFrame()
