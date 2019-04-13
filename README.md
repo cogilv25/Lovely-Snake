@@ -17,7 +17,7 @@ You will need the LÖVE Engine to run it which you can get [here](https://love2d
 - [ ] Add a pause menu
 - [ ] Allow arbitrary window dimensions
 - [x] Use a random value for seeding the rng such as the current time
-- [ ] Food should not spawn in a space occupied by the snake
+- [x] Food should not spawn in a space occupied by the snake
 - [ ] Food could respawn as soon as it's eaten by the head
 - [ ] Larger border on bottom and right than top and left
 - [ ] Snake update function could be more efficient

@@ -18,6 +18,7 @@ function Food:new()
 end
 
 function Food:respawn()
+	-- This is pretty inefficient but it works for now
 	local allowedSpaces = {}
 	for i=1,GAMEGRIDLENGTH*GAMEGRIDHEIGHT do
 		allowedSpaces[i] = Vector(i%GAMEGRIDLENGTH*GAMEGRIDPOINTSIZE,
@@ -27,10 +28,6 @@ function Food:respawn()
 	for i,v in ipairs(snake.segments) do
 		table.remove(allowedSpaces,(v.x/GAMEGRIDPOINTSIZE)+(v.y/GAMEGRIDPOINTSIZE)*GAMEGRIDLENGTH)
 	end
-
-	local xrange = GAMEGRIDLENGTH - 1
-	local yrange = GAMEGRIDHEIGHT - 1
-
 
 	local i = (Rng:next() % #allowedSpaces)
 	self.pos = allowedSpaces[i]
