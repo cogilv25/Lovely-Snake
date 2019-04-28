@@ -22,16 +22,11 @@
 -- 3 to cheat (snake grows without eating)
 
 --!TODO:
--- 1)Larger border on bottom and right
--- than top and left
--- 2)No win condition or score as of yet
--- 3)Arbitrary window dimensions
--- 4)God mode to test things out
--- 5)Game over message
--- 6)Pause Menu
--- 7)I think food should respawn as soon
+-- 1)Arbitrary window dimensions
+-- 2)God mode to test things out
+-- 3)I think food should respawn as soon
 -- as it's eaten by the head
--- 8)Snake update function could be more 
+-- 4)Snake update function could be more 
 -- efficient as really only the head and
 -- tail need to be modified
 
@@ -64,11 +59,10 @@ end
 
 function love.load()
 	-- Libraries
-	Object = require "lib/classic/classic"
-	Tick = require "lib/tick/tick"
-	Rng = require "lib/xorshift"
+	Object = require "lib/thirdparty/classic/classic"
+	Tick = require "lib/thirdparty/tick/tick"
+	Rng = require "lib/xorshift/xorshift"
 	-- Classes
-	require "base/vector"
 	require "snake"
 	require "food"
 
@@ -134,8 +128,6 @@ function love.draw()
 end
 
 function love.update(d)
-	-- We can't slow down the main loop to create
-	-- the slow update effect as input can feel laggy
 	Tick.update(d)
 	if paused then
 		highlightedMenuItem = 0

@@ -1,4 +1,6 @@
 -- Food class
+require "lib/game/vector"
+
 Food = Object:extend()
 
 function Food:new()

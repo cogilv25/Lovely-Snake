@@ -1,4 +1,5 @@
 -- Snake class
+require "lib/game/vector"
 
 Snake = Object:extend()
 
