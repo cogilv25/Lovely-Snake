@@ -10,7 +10,7 @@ function Snake:new()
 	-- the first segment if the player moved right then down in the same frame.
 	self.dir = Vector(GAMEGRIDPOINTSIZE,0)
 	self.dirNextFrame = Vector(GAMEGRIDPOINTSIZE,0)
-	self.color = {255,255,255}
+	self.color = {1,1,1}
 	-- Segments is just a list of vectors in order from head to tail
 	self.segments = {Vector(GAMEGRIDPOINTSIZE,GAMEGRIDPOINTSIZE),Vector(0,GAMEGRIDPOINTSIZE)}
 	-- Flag to tell snake to grow after feeding

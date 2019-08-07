@@ -12,7 +12,7 @@ function Food:new()
 	self.pos = Vector(x,y)
 	
 	self.dim = Vector(GAMEENTITYSIZE,GAMEENTITYSIZE)
-	self.color = {255,255,0}
+	self.color = {1,1,0}
 	-- Energy level when food respawns
 	self.respawnEnergy = 1
 	self.energy = 1

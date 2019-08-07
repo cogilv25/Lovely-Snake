@@ -109,15 +109,18 @@ function love.draw()
 		else
 			love.graphics.setFont(menuHeaderFont)
 			love.graphics.printf("Paused", SCREENWIDTH/2-200, 5,400,"center")
-			if highlightedMenuItem ~= 1 then
-				love.graphics.setColor({178,178,178})
+
+			if highlightedMenuItem == 1 then
+				love.graphics.setColor({1,1,1})
+			else
+				love.graphics.setColor({0.623125,0.623125,0.623125})
 			end
 			love.graphics.setFont(menuHeader2Font)
 			love.graphics.printf("Continue", SCREENWIDTH/2-200, 75,400,"center")
 			if highlightedMenuItem == 2 then
-				love.graphics.setColor({255,255,255})
+				love.graphics.setColor({1,1,1})
 			else
-				love.graphics.setColor({178,178,178})
+				love.graphics.setColor({0.623125,0.623125,0.623125})
 			end
 			love.graphics.printf("Exit", SCREENWIDTH/2-200, 115,400,"center")
 		end
