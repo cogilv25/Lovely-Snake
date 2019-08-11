@@ -12,6 +12,7 @@ You will need the LÖVE Engine to run it which you can get [here](https://love2d
 - 3 to cheat (snake grows without eating)
 
 ## Possible future improvements / problems
+- [ ] Change to a more logical grid based format
 - [x] Add win condition and scores
 - [x] Add a game over message
 - [x] Add a pause menu
