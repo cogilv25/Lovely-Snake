@@ -52,8 +52,7 @@ function resetGame()
 	gameOver = false
 	gameWon = false
 	paused = false
-	snake:new()
-	food:new()
+	grid:new()
 	score = 0
 end
 
@@ -63,8 +62,7 @@ function love.load()
 	Tick = require "lib/thirdparty/tick/tick"
 	Rng = require "lib/xorshift/xorshift"
 	-- Classes
-	require "snake"
-	require "food"
+	require "grid"
 
 	w,h,flags = love.window.getMode()
 	love.window.setMode(SCREENWIDTH,SCREENHEIGHT,flags)
@@ -73,8 +71,7 @@ function love.load()
 	paused = false
 	gameOver = false
 	gameWon = false 
-	snake = Snake()
-	food = Food()
+	grid = Grid()
 
 	-- Call slowUpdate every GAME_TICK_PERIOD seconds
 	Tick.recur(slowUpdate,GAME_TICK_PERIOD)
@@ -83,26 +80,25 @@ end
 function slowUpdate()
 	-- Stop updating entities when paused
 	if(paused)then return end
-	snake:update()
-	food:update()
+	grid:update()
 end
 
 function love.draw()
-	food:draw()
-	snake:draw()
+	grid:draw()
+	love.graphics.setColor({1,1,1})
 	if paused then
 		if gameOver then
 			if gameWon then
 			love.graphics.setFont(menuHeaderFont)
 			love.graphics.printf("You Have Won!", 0, SCREENHEIGHT/menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
-			love.graphics.setColor({178,178,178})
+			love.graphics.setColor({0.623125,0.623125,0.623125})
 			love.graphics.setFont(menuHeader2Font)
 			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+64,SCREENWIDTH,"center")
 			else
-			love.graphics.setColor({255,0,0})
+			love.graphics.setColor({1,0,0})
 			love.graphics.setFont(menuHeaderFont)
 			love.graphics.printf("You Have Lost!", 0, SCREENHEIGHT/2-menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
-			love.graphics.setColor({178,178,178})
+			love.graphics.setColor({0.623125,0.623125,0.623125})
 			love.graphics.setFont(menuHeader2Font)
 			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+44,SCREENWIDTH,"center")
 			end
@@ -164,18 +160,18 @@ function love.keypressed(key)
 		resetGame()
 	end
 	if(key == "up" or key == "w")then
-		snake:moveUpNextFrame()
+		grid:moveSnakeUpNextFrame()
 	end
 	if(key == "down" or key == "s")then
-		snake:moveDownNextFrame()
+		grid:moveSnakeDownNextFrame()
 	end
 	if(key == "left" or key == "a")then
-		snake:moveLeftNextFrame()
+		grid:moveSnakeLeftNextFrame()
 	end
 	if(key == "right" or key == "d")then
-		snake:moveRightNextFrame()
+		grid:moveSnakeRightNextFrame()
 	end
 	if(key == "3")then
-		snake.grow = true
+		grid:growSnake = true
 	end
 end

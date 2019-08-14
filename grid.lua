@@ -1,25 +1,29 @@
 -- Grid class
 require "lib/game/vector"
+require "snake"
+require "food"
 
 Grid = Object:extend()
 
 function Grid:new()
 	self.elements = {}
-	for i = 1 ,GAMEGRIDHEIGHT do
+	for i = 0 ,GAMEGRIDHEIGHT do
 		self.elements[i] = {}
-		for j=1 , GAMEGRIDLENGTH do
-			self.elements[i][j] = 0
+		for j=0 , GAMEGRIDLENGTH do
+			self.elements[i][j] = 2
 		end
 	end
 	self.foodRespawnEnergy = 1
 	self.foodEnergy = 1
 	self.foodEaten = false
+
+	self.growSnake = false
 end
 
 function Grid:respawnFood()
-	-- This is pretty inefficient but it works for now
+	-- This is the old implementation I'm not sure it worked but the idea was viable
 	local allowedSpaces = {}
-	for i=1,GAMEGRIDLENGTH*GAMEGRIDHEIGHT do
+	for i=0,GAMEGRIDLENGTH*GAMEGRIDHEIGHT do
 		allowedSpaces[i] = Vector(i%GAMEGRIDLENGTH*GAMEGRIDPOINTSIZE,
 			math.floor(i/GAMEGRIDLENGTH)*GAMEGRIDPOINTSIZE)
 	end
@@ -36,18 +40,35 @@ function Grid:update()
 end
 
 function Grid:draw()
-	for i = 1 ,GAMEGRIDHEIGHT do
-		for j=1 , GAMEGRIDLENGTH do
-			if(elements[i][j]==1)then
-				love.graphics.setcolor({1.0,1.0,1.0})
+	for i = 0 ,GAMEGRIDHEIGHT do
+		for j=0 , GAMEGRIDLENGTH do
+			if(self.elements[i][j]==1)then
+				love.graphics.setColor({1.0,1.0,1.0})
 				love.graphics.rectangle("fill", j*GAMEGRIDPOINTSIZE + GAMEGRIDBORDERSIZE, i*GAMEGRIDPOINTSIZE + GAMEGRIDBORDERSIZE, GAMEENTITYSIZE, GAMEENTITYSIZE)
-			elseif(elements[i][j]==2)then
-				love.graphics.setcolor({1.0,1.0,0.0})
+			elseif(self.elements[i][j]==2)then
+				love.graphics.setColor({1.0,1.0,0.0})
 				love.graphics.rectangle("fill", j*GAMEGRIDPOINTSIZE + GAMEGRIDBORDERSIZE, i*GAMEGRIDPOINTSIZE + GAMEGRIDBORDERSIZE, GAMEENTITYSIZE, GAMEENTITYSIZE)
 			end
 		end
 	end
 end
+
+function Grid:moveSnakeUpNextFrame()
+
+end
+
+function Grid:moveSnakeDownNextFrame()
+
+end
+
+function Grid:moveSnakeRightNextFrame()
+
+end
+
+function Grid:moveSnakeLeftNextFrame()
+
+end
+
 
 --[[
 	Old Snake Class Code
