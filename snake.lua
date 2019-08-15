@@ -1,83 +1,64 @@
-
-
---[[
-	Old Snake Class Code
-
-
-
 -- Snake class
 require "lib/game/vector"
 
 Snake = Object:extend()
 
 function Snake:new()
-	self.pos = Vector(GAMEGRIDPOINTSIZE*2,GAMEGRIDPOINTSIZE)
-	self.dim = Vector(GAMEENTITYSIZE,GAMEENTITYSIZE)
 	-- Both dir and dirNextFrame are kept track of to prevent the snakes head hitting
 	-- the first segment if the player moved right then down in the same frame (doing a uturn on the spot).
-	self.dir = Vector(GAMEGRIDPOINTSIZE,0)
-	self.dirNextFrame = Vector(GAMEGRIDPOINTSIZE,0)
+	self.dir = Vector(1,0)
+	self.dirNextFrame = Vector(1,0)
 	self.color = {1,1,1}
-	-- Segments is just a list of vectors in order from head to tail
-	self.segments = {Vector(GAMEGRIDPOINTSIZE,GAMEGRIDPOINTSIZE),Vector(0,GAMEGRIDPOINTSIZE)}
+	-- Segments is a list of vectors for each snake segment in order from head to tail
+	self.segments = {Vector(2,1),Vector(1,1),Vector(0,1)}
+	grid.elements[1][2] = 1;grid.elements[1][1] = 1;grid.elements[1][0] = 1;
+
 	-- Flag to tell snake to grow after feeding
 	self.grow = false
 end
 
-function Snake:draw()
-	love.graphics.setColor(self.color)
-    love.graphics.rectangle("fill", self.pos.x + GAMEGRIDBORDERSIZE, self.pos.y + GAMEGRIDBORDERSIZE, self.dim.x, self.dim.y)
-    for k,v in pairs(self.segments) do
-    	love.graphics.rectangle("fill", v.x + GAMEGRIDBORDERSIZE, v.y + GAMEGRIDBORDERSIZE, self.dim.x, self.dim.y)
-    end
-end
-
+--- Change ME
 function Snake:update()
-	local prev = self.pos:getCopy()
+
 	-- Update position wrapping around screen
-	self.pos.x = (self.pos.x + self.dirNextFrame.x + SCREENWIDTH) % SCREENWIDTH
-	self.pos.y = (self.pos.y + self.dirNextFrame.y + SCREENHEIGHT) % SCREENHEIGHT
+	table.insert(self.segments,1,Vector(
+		(self.segments[1].x+self.dirNextFrame.x + GAMEGRIDLENGTH)%GAMEGRIDLENGTH, --New Snake Head X Position
+		(self.segments[1].y+self.dirNextFrame.y + GAMEGRIDHEIGHT)%GAMEGRIDHEIGHT  --New Snake Head Y Position
+		)
+	)
+	grid.elements[self.segments[1].y][self.segments[1].x] = 1
+
 	self.dir = self.dirNextFrame
-	local newSegments = {}
-	for i,vec in ipairs(self.segments) do
-		newSegments[i] = prev
-		prev = vec
-		-- Self Collision Detection
-		if(self.pos == vec) then
-			paused = true
-			gameOver = true
-		end
-	end
+
+	--Don't remove the last snake segment on moving if the snake is growing
 	if(self.grow)then
 		self.grow = false
-		newSegments[#newSegments + 1] = prev
+	else
+		local old = table.remove(self.segments)
+		grid.elements[old.y][old.x] = 0
 	end
-	self.segments = newSegments
 end
 
-function Snake:moveRightNextFrame()
+function Snake:faceRight()
 	if(self.dir.x == 0)then
-		self.dirNextFrame = Vector(GAMEGRIDPOINTSIZE,0)
+		self.dirNextFrame = Vector(1,0)
 	end
 end
 
-function Snake:moveLeftNextFrame()
+function Snake:faceLeft()
 	if(self.dir.x == 0)then
-		self.dirNextFrame = Vector(-GAMEGRIDPOINTSIZE,0)
+		self.dirNextFrame = Vector(-1,0)
 	end
 end
 
-function Snake:moveUpNextFrame()
+function Snake:faceUp()
 	if(self.dir.y == 0)then
-		self.dirNextFrame = Vector(0,-GAMEGRIDPOINTSIZE)
+		self.dirNextFrame = Vector(0,-1)
 	end
 end
 	
-function Snake:moveDownNextFrame()
+function Snake:faceDown()
 	if(self.dir.y == 0)then
-		self.dirNextFrame = Vector(0,GAMEGRIDPOINTSIZE)
+		self.dirNextFrame = Vector(0,1)
 	end
 end
-
-
-]]--

@@ -30,17 +30,7 @@
 -- efficient as really only the head and
 -- tail need to be modified
 
-SCREENWIDTH = 1200
-SCREENHEIGHT = SCREENWIDTH * .75
-GAMEGRIDLENGTH = 40
-GAMEGRIDHEIGHT = GAMEGRIDLENGTH * .75
-GAMEGRIDPOINTSIZE = SCREENWIDTH / GAMEGRIDLENGTH
-GAMEGRIDBORDERSIZE = GAMEGRIDPOINTSIZE * .125
-GAMEENTITYSIZE = GAMEGRIDPOINTSIZE * .75
-GAME_TICK_PERIOD = 0.15
--- Each time the snake eats food the number of
--- segments it grows by increases by this number
-FOOD_ENERGY_INCREMENTER = 2
+require "settings"
 
 score = 0
 highlightedMenuItem = 0
@@ -90,15 +80,16 @@ function love.draw()
 		if gameOver then
 			if gameWon then
 			love.graphics.setFont(menuHeaderFont)
+			love.graphics.setColor(TEXT_WIN_MESSAGE_COLOR)
 			love.graphics.printf("You Have Won!", 0, SCREENHEIGHT/menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
-			love.graphics.setColor({0.623125,0.623125,0.623125})
+			love.graphics.setColor(TEXT_RESTART_MESSAGE_COLOR)
 			love.graphics.setFont(menuHeader2Font)
 			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+64,SCREENWIDTH,"center")
 			else
-			love.graphics.setColor({1,0,0})
+			love.graphics.setColor(TEXT_LOSE_MESSAGE_COLOR)
 			love.graphics.setFont(menuHeaderFont)
 			love.graphics.printf("You Have Lost!", 0, SCREENHEIGHT/2-menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
-			love.graphics.setColor({0.623125,0.623125,0.623125})
+			love.graphics.setColor(TEXT_RESTART_MESSAGE_COLOR)
 			love.graphics.setFont(menuHeader2Font)
 			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+44,SCREENWIDTH,"center")
 			end
@@ -107,20 +98,21 @@ function love.draw()
 			love.graphics.printf("Paused", SCREENWIDTH/2-200, 5,400,"center")
 
 			if highlightedMenuItem == 1 then
-				love.graphics.setColor({1,1,1})
+				love.graphics.setColor(TEXT_SELECTED_COLOR)
 			else
-				love.graphics.setColor({0.623125,0.623125,0.623125})
+				love.graphics.setColor(TEXT_UNSELECTED_COLOR)
 			end
 			love.graphics.setFont(menuHeader2Font)
 			love.graphics.printf("Continue", SCREENWIDTH/2-200, 75,400,"center")
 			if highlightedMenuItem == 2 then
-				love.graphics.setColor({1,1,1})
+				love.graphics.setColor(TEXT_SELECTED_COLOR)
 			else
-				love.graphics.setColor({0.623125,0.623125,0.623125})
+				love.graphics.setColor(TEXT_UNSELECTED_COLOR)
 			end
 			love.graphics.printf("Exit", SCREENWIDTH/2-200, 115,400,"center")
 		end
 	else
+		love.graphics.setColor(TEXT_SCORE_MESSAGE_COLOR)
 		love.graphics.setFont(menuHeader3Font)
 		love.graphics.printf("Score: " .. score, SCREENWIDTH/2-50, 5,100,"center")
 	end
@@ -160,18 +152,18 @@ function love.keypressed(key)
 		resetGame()
 	end
 	if(key == "up" or key == "w")then
-		grid:moveSnakeUpNextFrame()
+		grid.snake:faceUp()
 	end
 	if(key == "down" or key == "s")then
-		grid:moveSnakeDownNextFrame()
+		grid.snake:faceDown()
 	end
 	if(key == "left" or key == "a")then
-		grid:moveSnakeLeftNextFrame()
+		grid.snake:faceLeft()
 	end
 	if(key == "right" or key == "d")then
-		grid:moveSnakeRightNextFrame()
+		grid.snake:faceRight()
 	end
 	if(key == "3")then
-		grid:growSnake = true
+		grid.snake.grow = true
 	end
 end

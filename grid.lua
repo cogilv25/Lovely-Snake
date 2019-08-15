@@ -14,10 +14,10 @@ function Grid:new()
 		end
 	end
 	self.foodRespawnEnergy = 1
-	self.foodEnergy = 1
-	self.foodEaten = false
 
-	self.growSnake = false
+	self.snake = Snake()
+
+	self.food = {}
 end
 
 function Grid:respawnFood()
@@ -36,7 +36,10 @@ function Grid:respawnFood()
 end
 
 function Grid:update()
-	
+	self.snake:update()
+	for i,v in pairs(self.food)do
+		v:update()
+	end
 end
 
 function Grid:draw()
