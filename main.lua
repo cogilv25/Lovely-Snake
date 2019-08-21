@@ -42,6 +42,7 @@ function resetGame()
 	gameOver = false
 	gameWon = false
 	paused = false
+	FOOD_RESPAWN_ENERGY = 1
 	grid:new()
 	score = 0
 end
@@ -71,6 +72,12 @@ function slowUpdate()
 	-- Stop updating entities when paused
 	if(paused)then return end
 	grid:update()
+
+	if score == GAME_WINNING_SCORE then
+		paused = true
+		gameOver = true
+		gameWon = true
+	end
 end
 
 function love.draw()
@@ -81,7 +88,7 @@ function love.draw()
 			if gameWon then
 			love.graphics.setFont(menuHeaderFont)
 			love.graphics.setColor(TEXT_WIN_MESSAGE_COLOR)
-			love.graphics.printf("You Have Won!", 0, SCREENHEIGHT/menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
+			love.graphics.printf("You Have Won!", 0, SCREENHEIGHT/2-menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
 			love.graphics.setColor(TEXT_RESTART_MESSAGE_COLOR)
 			love.graphics.setFont(menuHeader2Font)
 			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+64,SCREENWIDTH,"center")

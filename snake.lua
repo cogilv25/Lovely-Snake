@@ -11,7 +11,6 @@ function Snake:new()
 	self.color = {1,1,1}
 	-- Segments is a list of vectors for each snake segment in order from head to tail
 	self.segments = {Vector(2,1),Vector(1,1),Vector(0,1)}
-	grid.elements[1][2] = 1;grid.elements[1][1] = 1;grid.elements[1][0] = 1;
 
 	-- Flag to tell snake to grow after feeding
 	self.grow = false
@@ -37,6 +36,14 @@ function Snake:update()
 		local old = table.remove(self.segments)
 		grid.elements[old.y][old.x] = 0
 	end
+
+	for i=2,#self.segments do
+		if(self.segments[1] == self.segments[i]) then
+			paused = true
+			gameOver = true
+		end
+	end
+
 end
 
 function Snake:faceRight()
