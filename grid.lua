@@ -23,7 +23,10 @@ function Grid:new()
 end
 
 function Grid:spawnFood()
-	--This will not work well when the grid is nearly full
+	--I want to change this so it chooses a random tile from 
+	--a list of empty tiles and spawns the food in that tile
+	--rather than choosing random tiles until it finds an empty one
+	--but it's not a real concern at the moment as it works.
 	local x = Rng:next() % GAMEGRIDLENGTH
 	local y = Rng:next() % GAMEGRIDHEIGHT
 	while(self.elements[y][x] ~= 0) do

@@ -73,7 +73,7 @@ function slowUpdate()
 	if(paused)then return end
 	grid:update()
 
-	if score == GAME_WINNING_SCORE then
+	if score >= GAME_WINNING_SCORE then
 		paused = true
 		gameOver = true
 		gameWon = true
