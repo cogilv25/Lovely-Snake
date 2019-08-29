@@ -34,9 +34,6 @@ require "settings"
 
 score = 0
 highlightedMenuItem = 0
-menuHeaderFont = love.graphics.newFont(64)
-menuHeader2Font = love.graphics.newFont(32)
-menuHeader3Font = love.graphics.newFont(20)
 
 function resetGame()
 	gameOver = false
@@ -86,22 +83,22 @@ function love.draw()
 	if paused then
 		if gameOver then
 			if gameWon then
-			love.graphics.setFont(menuHeaderFont)
+			love.graphics.setFont(TEXT_HEADER_FONT)
 			love.graphics.setColor(TEXT_WIN_MESSAGE_COLOR)
-			love.graphics.printf("You Have Won!", 0, SCREENHEIGHT/2-menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
+			love.graphics.printf("You Have Won!", 0, SCREENHEIGHT/2-TEXT_HEADER_FONT:getHeight()/2 - 20,SCREENWIDTH,"center")
 			love.graphics.setColor(TEXT_RESTART_MESSAGE_COLOR)
-			love.graphics.setFont(menuHeader2Font)
+			love.graphics.setFont(TEXT_HEADER2_FONT)
 			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+64,SCREENWIDTH,"center")
 			else
 			love.graphics.setColor(TEXT_LOSE_MESSAGE_COLOR)
-			love.graphics.setFont(menuHeaderFont)
-			love.graphics.printf("You Have Lost!", 0, SCREENHEIGHT/2-menuHeaderFont:getHeight()/2 - 20,SCREENWIDTH,"center")
+			love.graphics.setFont(TEXT_HEADER_FONT)
+			love.graphics.printf("You Have Lost!", 0, SCREENHEIGHT/2-TEXT_HEADER_FONT:getHeight()/2 - 20,SCREENWIDTH,"center")
 			love.graphics.setColor(TEXT_RESTART_MESSAGE_COLOR)
-			love.graphics.setFont(menuHeader2Font)
+			love.graphics.setFont(TEXT_HEADER2_FONT)
 			love.graphics.printf("Press r to restart", 0, SCREENHEIGHT/2+44,SCREENWIDTH,"center")
 			end
 		else
-			love.graphics.setFont(menuHeaderFont)
+			love.graphics.setFont(TEXT_HEADER_FONT)
 			love.graphics.printf("Paused", SCREENWIDTH/2-200, 5,400,"center")
 
 			if highlightedMenuItem == 1 then
@@ -109,7 +106,7 @@ function love.draw()
 			else
 				love.graphics.setColor(TEXT_UNSELECTED_COLOR)
 			end
-			love.graphics.setFont(menuHeader2Font)
+			love.graphics.setFont(TEXT_HEADER2_FONT)
 			love.graphics.printf("Continue", SCREENWIDTH/2-200, 75,400,"center")
 			if highlightedMenuItem == 2 then
 				love.graphics.setColor(TEXT_SELECTED_COLOR)
@@ -120,7 +117,7 @@ function love.draw()
 		end
 	else
 		love.graphics.setColor(TEXT_SCORE_MESSAGE_COLOR)
-		love.graphics.setFont(menuHeader3Font)
+		love.graphics.setFont(TEXT_HEADER3_FONT)
 		love.graphics.printf("Score: " .. score, SCREENWIDTH/2-50, 5,100,"center")
 	end
 end
