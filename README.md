@@ -25,4 +25,4 @@ You will need the LÖVE Engine to run it which you can get [here](https://love2d
 - [x] Food could respawn as soon as it's eaten by the head
 - [ ] Improve food respawn algorithm (may be too slow for older computers at high scores)
 - [x] Border on bottom, right, top and left should be the same size
-- [ ] Snake update function could be more efficient
+- [x] Snake update function could be more efficient

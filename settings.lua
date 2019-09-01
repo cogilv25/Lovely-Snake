@@ -18,10 +18,11 @@ TEXT_SCORE_MESSAGE_COLOR = {1,1,1}
 	SCREENHEIGHT = SCREENWIDTH * .75
 
 	--TEXT
-	TEXT_HEADER_FONT = love.graphics.newFont(64)
-	TEXT_HEADER2_FONT = love.graphics.newFont(32)
-	TEXT_HEADER3_FONT = love.graphics.newFont(20)
-	TEXT_FONT = love.graphics.newFont(14)
+	TEXT_HEADER_FONT = love.graphics.newFont(SCREENWIDTH/20)
+	TEXT_HEADER2_FONT = love.graphics.newFont(SCREENWIDTH/40)
+	TEXT_HEADER3_FONT = love.graphics.newFont(SCREENWIDTH/55)
+	TEXT_FONT = love.graphics.newFont(SCREENWIDTH/65)
+	--TODO: TEXT_POSITIONS
 
 	--GAME
 	GAMEGRIDLENGTH = 40
