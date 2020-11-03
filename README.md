@@ -1,4 +1,4 @@
-# Lovely Snake
+﻿# Lovely Snake
 Written By Calum Lindsay.  
  It is a very simple implementation of the classic snake game I made to try out the LÖVE 2D Game engine. I also made a simple rng "library" called xorshift for spawning the food.
 
@@ -23,6 +23,6 @@ You will need the LÖVE Engine to run it which you can get [here](https://love2d
 - [x] Use a random value for seeding the rng such as the current time
 - [x] Food should not spawn in a space occupied by the snake
 - [x] Food could respawn as soon as it's eaten by the head
-- [ ] Improve food respawn algorithm (may be too slow for older computers at high scores)
+- [x] Improve food respawn algorithm (may be too slow for older computers at high scores)
 - [x] Border on bottom, right, top and left should be the same size
 - [x] Snake update function could be more efficient

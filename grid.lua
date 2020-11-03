@@ -23,21 +23,22 @@ function Grid:new()
 end
 
 function Grid:spawnFood()
-	--I want to change this so it chooses a random tile from 
-	--a list of empty tiles and spawns the food in that tile
-	--rather than choosing random tiles until it finds an empty one
-	--but it's not a real concern at the moment as it works.
-	local x = Rng:next() % GAMEGRIDLENGTH
-	local y = Rng:next() % GAMEGRIDHEIGHT
-	while(self.elements[y][x] ~= 0) do
-		x = Rng:next() % GAMEGRIDLENGTH
-		y = Rng:next() % GAMEGRIDHEIGHT
+	local spawnLoc = Rng:next() % GAMEGRIDLENGTH * GAMEGRIDHEIGHT - #self.snake.segments
+	local curLoc = 0
+	for x=0,GAMEGRIDLENGTH do
+		for y=0,GAMEGRIDHEIGHT do
+			if(self.elements[y][x] == 0) then
+				if(curLoc == spawnLoc) then
+					table.insert(self.food,Food(x,y,FOOD_RESPAWN_ENERGY))
+					FOOD_RESPAWN_ENERGY = FOOD_RESPAWN_ENERGY + FOOD_ENERGY_INCREMENTER
+					self.elements[y][x] = 2
+					goto jumpOut
+				end
+				curLoc = curLoc + 1
+			end
+		end
 	end
-	
-	table.insert(self.food,Food(x,y,FOOD_RESPAWN_ENERGY))
-	FOOD_RESPAWN_ENERGY = FOOD_RESPAWN_ENERGY + FOOD_ENERGY_INCREMENTER
-	self.elements[y][x] = 2
-	
+	::jumpOut::
 end
 
 function Grid:update()
